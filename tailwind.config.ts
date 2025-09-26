@@ -57,6 +57,34 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // VSCode-inspired custom colors
+        editor: {
+          background: "hsl(var(--editor-background))",
+          gutter: "hsl(var(--editor-gutter))",
+        },
+        activity: {
+          bar: "hsl(var(--activity-bar))",
+        },
+        status: {
+          bar: "hsl(var(--status-bar))",
+        },
+        tab: {
+          active: "hsl(var(--tab-active))",
+          inactive: "hsl(var(--tab-inactive))",
+        },
+        hover: "hsl(var(--hover))",
+        selection: "hsl(var(--selection))",
+      },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-subtle": "var(--gradient-subtle)",
+      },
+      boxShadow: {
+        elevated: "var(--shadow-elevated)",
+        glow: "var(--shadow-glow)",
+      },
+      transitionProperty: {
+        smooth: "var(--transition-smooth)",
       },
       borderRadius: {
         lg: "var(--radius)",
