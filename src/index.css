@@ -8,67 +8,71 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* VSCode-inspired dark theme design system */
-    --background: 220 13% 18%;
-    --foreground: 220 14% 93%;
+    /* Premium enterprise design system with modern aesthetics */
+    --background: 216 12% 8%;
+    --foreground: 215 20% 95%;
 
-    --card: 220 13% 21%;
-    --card-foreground: 220 14% 93%;
+    --card: 216 12% 12%;
+    --card-foreground: 215 20% 95%;
 
-    --popover: 220 13% 16%;
-    --popover-foreground: 220 14% 93%;
+    --popover: 216 12% 10%;
+    --popover-foreground: 215 20% 95%;
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 220 14% 93%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 215 20% 95%;
 
-    --secondary: 220 13% 24%;
-    --secondary-foreground: 220 14% 93%;
+    --secondary: 216 12% 16%;
+    --secondary-foreground: 215 20% 95%;
 
-    --muted: 220 13% 16%;
-    --muted-foreground: 220 9% 55%;
+    --muted: 216 12% 14%;
+    --muted-foreground: 215 8% 65%;
 
-    --accent: 221 83% 53%;
-    --accent-foreground: 220 14% 93%;
+    --accent: 262 83% 58%;
+    --accent-foreground: 215 20% 95%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 28%;
-    --input: 220 13% 24%;
-    --ring: 221 83% 53%;
+    --border: 216 12% 18%;
+    --input: 216 12% 16%;
+    --ring: 262 83% 58%;
 
-    --radius: 0.25rem;
+    --radius: 0.5rem;
 
-    /* VSCode sidebar colors */
-    --sidebar-background: 220 13% 16%;
-    --sidebar-foreground: 220 14% 93%;
-    --sidebar-primary: 221 83% 53%;
-    --sidebar-primary-foreground: 220 14% 93%;
-    --sidebar-accent: 220 13% 21%;
-    --sidebar-accent-foreground: 220 14% 93%;
-    --sidebar-border: 220 13% 28%;
-    --sidebar-ring: 221 83% 53%;
+    /* Premium sidebar colors */
+    --sidebar-background: 216 12% 6%;
+    --sidebar-foreground: 215 20% 95%;
+    --sidebar-primary: 262 83% 58%;
+    --sidebar-primary-foreground: 215 20% 95%;
+    --sidebar-accent: 216 12% 14%;
+    --sidebar-accent-foreground: 215 20% 95%;
+    --sidebar-border: 216 12% 18%;
+    --sidebar-ring: 262 83% 58%;
 
-    /* Custom VSCode-like colors */
-    --editor-background: 220 13% 18%;
-    --editor-gutter: 220 13% 16%;
-    --activity-bar: 220 13% 14%;
-    --status-bar: 221 83% 53%;
-    --tab-active: 220 13% 21%;
-    --tab-inactive: 220 13% 16%;
-    --hover: 220 13% 24%;
-    --selection: 221 83% 53% / 0.2;
+    /* Premium VSCode-like colors */
+    --editor-background: 216 12% 8%;
+    --editor-gutter: 216 12% 6%;
+    --activity-bar: 216 12% 4%;
+    --status-bar: 262 83% 58%;
+    --tab-active: 216 12% 12%;
+    --tab-inactive: 216 12% 6%;
+    --hover: 216 12% 16%;
+    --selection: 262 83% 58% / 0.2;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(264 83% 53%));
-    --gradient-subtle: linear-gradient(180deg, hsl(220 13% 21%), hsl(220 13% 18%));
+    /* Premium gradients with more sophisticated colors */
+    --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%), hsl(291 83% 68%));
+    --gradient-secondary: linear-gradient(135deg, hsl(216 12% 12%), hsl(216 12% 8%));
+    --gradient-accent: linear-gradient(135deg, hsl(262 83% 58% / 0.1), hsl(291 83% 68% / 0.1));
+    --gradient-glass: linear-gradient(135deg, hsl(216 12% 16% / 0.8), hsl(216 12% 12% / 0.8));
 
-    /* Shadows */
-    --shadow-elevated: 0 8px 32px hsl(220 13% 8% / 0.4);
-    --shadow-glow: 0 0 20px hsl(221 83% 53% / 0.3);
+    /* Premium shadows with subtle glow effects */
+    --shadow-elevated: 0 25px 50px -12px hsl(216 12% 4% / 0.8), 0 0 40px hsl(262 83% 58% / 0.15);
+    --shadow-glow: 0 0 30px hsl(262 83% 58% / 0.4), 0 0 60px hsl(262 83% 58% / 0.2);
+    --shadow-soft: 0 4px 6px -1px hsl(216 12% 4% / 0.3), 0 2px 4px -1px hsl(216 12% 4% / 0.2);
 
-    /* Animations */
-    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Premium animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 }
 

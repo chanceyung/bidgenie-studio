@@ -3,32 +3,48 @@ import { EditorArea } from "../editor/EditorArea";
 import { ChatPanel } from "../chat/ChatPanel";
 import { TopBar } from "./TopBar";
 import { StatusBar } from "./StatusBar";
+import { FileText, Search, Brain, Settings, User } from "lucide-react";
 
 export function AppLayout() {
   return (
-    <div className="h-screen bg-background text-foreground flex flex-col">
+    <div className="h-screen bg-background text-foreground flex flex-col overflow-hidden">
       <TopBar />
       
       <div className="flex-1 flex overflow-hidden">
-        {/* Activity Bar */}
-        <div className="w-12 bg-activity-bar border-r border-border flex flex-col items-center py-2">
-          <div className="w-6 h-6 bg-primary rounded-sm mb-2"></div>
-          <div className="w-6 h-6 bg-muted rounded-sm mb-2"></div>
-          <div className="w-6 h-6 bg-muted rounded-sm"></div>
+        {/* Enhanced Activity Bar */}
+        <div className="w-14 bg-activity-bar border-r border-border flex flex-col items-center py-4 space-y-3">
+          <div className="w-8 h-8 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow hover:scale-110 transition-transform duration-200 cursor-pointer">
+            <FileText className="w-4 h-4 text-white" />
+          </div>
+          <div className="w-8 h-8 bg-gradient-accent rounded-xl flex items-center justify-center hover:bg-gradient-primary hover:shadow-glow hover:scale-110 transition-all duration-200 cursor-pointer">
+            <Search className="w-4 h-4 text-muted-foreground hover:text-white" />
+          </div>
+          <div className="w-8 h-8 bg-gradient-accent rounded-xl flex items-center justify-center hover:bg-gradient-primary hover:shadow-glow hover:scale-110 transition-all duration-200 cursor-pointer">
+            <Brain className="w-4 h-4 text-muted-foreground hover:text-white" />
+          </div>
+          <div className="w-8 h-8 bg-gradient-accent rounded-xl flex items-center justify-center hover:bg-gradient-primary hover:shadow-glow hover:scale-110 transition-all duration-200 cursor-pointer">
+            <Settings className="w-4 h-4 text-muted-foreground hover:text-white" />
+          </div>
+          
+          <div className="flex-1"></div>
+          
+          <div className="w-8 h-8 bg-gradient-accent rounded-xl flex items-center justify-center hover:bg-gradient-primary hover:shadow-glow hover:scale-110 transition-all duration-200 cursor-pointer">
+            <User className="w-4 h-4 text-muted-foreground hover:text-white" />
+          </div>
         </div>
 
         {/* Left Panel - File Explorer */}
-        <div className="w-80 bg-sidebar border-r border-border">
+        <div className="w-80 bg-sidebar border-r border-border/50 shadow-soft">
           <FileExplorer />
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col bg-editor-background">
           <EditorArea />
         </div>
 
         {/* Right Panel - AI Chat */}
-        <div className="w-96 bg-sidebar border-l border-border">
+        <div className="w-96 bg-sidebar shadow-elevated">
           <ChatPanel />
         </div>
       </div>

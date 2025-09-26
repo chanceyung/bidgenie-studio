@@ -77,14 +77,18 @@ export default {
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
-        "gradient-subtle": "var(--gradient-subtle)",
+        "gradient-secondary": "var(--gradient-secondary)",
+        "gradient-accent": "var(--gradient-accent)",
+        "gradient-glass": "var(--gradient-glass)",
       },
       boxShadow: {
         elevated: "var(--shadow-elevated)",
         glow: "var(--shadow-glow)",
+        soft: "var(--shadow-soft)",
       },
       transitionProperty: {
         smooth: "var(--transition-smooth)",
+        bounce: "var(--transition-bounce)",
       },
       borderRadius: {
         lg: "var(--radius)",

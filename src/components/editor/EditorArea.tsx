@@ -1,5 +1,6 @@
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
+import { AIToolbar } from "../ai/AIToolbar";
 import { 
   X, 
   Save, 
@@ -15,7 +16,10 @@ import {
   Printer,
   FileCheck,
   Clock,
-  AlertCircle
+  AlertCircle,
+  Sparkles,
+  Brain,
+  Wand2
 } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
@@ -152,58 +156,51 @@ export function EditorArea() {
       </div>
 
       {/* Enhanced Toolbar */}
-      <div className="flex items-center p-3 bg-card border-b border-border space-x-1">
-        <div className="flex items-center space-x-1 mr-4">
-          <Button variant="ghost" size="sm" className="h-8 px-3">
+      <div className="flex items-center justify-between p-3 bg-gradient-glass backdrop-blur-sm border-b border-border/50">
+        <div className="flex items-center space-x-1">
+          <Button variant="ghost" size="sm" className="h-8 px-3 hover:bg-hover transition-all duration-200">
             <Save className="w-4 h-4 mr-2" />
             保存
           </Button>
-          <Button variant="ghost" size="sm" className="h-8 px-3">
+          <Button variant="ghost" size="sm" className="h-8 px-3 hover:bg-hover transition-all duration-200">
             <Download className="w-4 h-4 mr-2" />
             导出
           </Button>
-          <Button variant="ghost" size="sm" className="h-8 px-3">
+          <Button variant="ghost" size="sm" className="h-8 px-3 hover:bg-hover transition-all duration-200">
             <Eye className="w-4 h-4 mr-2" />
             预览
           </Button>
-        </div>
 
-        <div className="w-px h-6 bg-border"></div>
+          <div className="w-px h-6 bg-border mx-2"></div>
 
-        <div className="flex items-center space-x-1 mr-4">
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0" title="撤销">
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 hover:bg-hover transition-all duration-200" title="撤销">
             <Undo2 className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0" title="重做">
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 hover:bg-hover transition-all duration-200" title="重做">
             <Redo2 className="w-4 h-4" />
           </Button>
-        </div>
 
-        <div className="w-px h-6 bg-border"></div>
+          <div className="w-px h-6 bg-border mx-2"></div>
 
-        <div className="flex items-center space-x-1 mr-4">
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0" title="查找">
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 hover:bg-hover transition-all duration-200" title="查找">
             <Search className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" className="w-8 h-8 p-0" title="替换">
+          <Button variant="ghost" size="sm" className="w-8 h-8 p-0 hover:bg-hover transition-all duration-200" title="替换">
             <Replace className="w-4 h-4" />
           </Button>
         </div>
 
-        <div className="w-px h-6 bg-border"></div>
-
-        <Button variant="ghost" size="sm" className="h-8 px-3 bg-gradient-primary text-white hover:opacity-90">
-          <Zap className="w-4 h-4 mr-2" />
-          AI优化
-        </Button>
-
-        <div className="flex-1"></div>
+        {/* AI Toolbar */}
+        <AIToolbar />
 
         {activeTab && (
           <div className="flex items-center space-x-4 text-xs text-muted-foreground">
             <div className="flex items-center space-x-2">
               <span>字数: {activeTab.wordCount}</span>
-              <Badge variant="outline" className="text-xs">
+              <Badge 
+                variant={activeTab.status === 'modified' ? "destructive" : "secondary"} 
+                className="text-xs"
+              >
                 {activeTab.status === 'modified' ? '未保存' : '已保存'}
               </Badge>
             </div>

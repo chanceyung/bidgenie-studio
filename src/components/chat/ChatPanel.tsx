@@ -2,6 +2,8 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { ScrollArea } from "../ui/scroll-area";
 import { Badge } from "../ui/badge";
+import { Card } from "../ui/card";
+import { AutoModePanel } from "../ai/AutoModePanel";
 import { 
   Send, 
   Bot, 
@@ -14,7 +16,16 @@ import {
   Lightbulb,
   Mic,
   Paperclip,
-  RotateCcw
+  RotateCcw,
+  ChevronDown,
+  ChevronUp,
+  Copy,
+  ThumbsUp,
+  ThumbsDown,
+  RefreshCw,
+  Brain,
+  MessageSquare,
+  Layers
 } from "lucide-react";
 import { useState } from "react";
 
@@ -23,6 +34,13 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  type?: 'text' | 'code' | 'suggestion' | 'analysis';
+  metadata?: {
+    model?: string;
+    tokens?: number;
+    confidence?: number;
+    suggestions?: string[];
+  };
 }
 
 const mockMessages: Message[] = [
@@ -61,6 +79,9 @@ const mockMessages: Message[] = [
 export function ChatPanel() {
   const [messages, setMessages] = useState(mockMessages);
   const [inputValue, setInputValue] = useState("");
+  const [isAutoMode, setIsAutoMode] = useState(false);
+  const [showAutoPanel, setShowAutoPanel] = useState(false);
+  const [selectedModel, setSelectedModel] = useState("claude-4-opus");
 
   const handleSendMessage = () => {
     if (!inputValue.trim()) return;
@@ -69,19 +90,27 @@ export function ChatPanel() {
       id: Date.now().toString(),
       role: "user",
       content: inputValue,
-      timestamp: new Date()
+      timestamp: new Date(),
+      type: 'text'
     };
 
     setMessages(prev => [...prev, newMessage]);
     setInputValue("");
 
-    // Simulate AI response
+    // Simulate AI response with enhanced features
     setTimeout(() => {
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "我正在为您分析需求，请稍等...",
-        timestamp: new Date()
+        content: "🧠 **AI正在分析您的需求...**\n\n基于您的输入，我将为您提供专业的标书建议。请稍等片刻...",
+        timestamp: new Date(),
+        type: 'analysis',
+        metadata: {
+          model: selectedModel,
+          tokens: 150,
+          confidence: 0.92,
+          suggestions: ["添加技术细节", "完善实施方案", "优化成本结构"]
+        }
       };
       setMessages(prev => [...prev, aiResponse]);
     }, 1000);
@@ -93,6 +122,266 @@ export function ChatPanel() {
       handleSendMessage();
     }
   };
+
+  const getMessageTypeIcon = (type?: string) => {
+    switch (type) {
+      case 'code': return <Zap className="w-3 h-3 text-blue-500" />;
+      case 'suggestion': return <Lightbulb className="w-3 h-3 text-amber-500" />;
+      case 'analysis': return <Brain className="w-3 h-3 text-purple-500" />;
+      default: return <MessageSquare className="w-3 h-3 text-primary" />;
+    }
+  };
+
+  return (
+    <div className="h-full flex flex-col bg-gradient-glass backdrop-blur-sm border-l border-border/50">
+      {/* Enhanced Chat Header */}
+      <div className="p-4 border-b border-border/50 bg-gradient-secondary">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-base font-semibold text-foreground">AI智能助手</h3>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-xs text-muted-foreground">Claude-4 Opus • 在线</span>
+                <Badge variant="secondary" className="text-xs bg-gradient-primary text-white px-2">
+                  企业版
+                </Badge>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center space-x-1">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="w-8 h-8 p-0 hover:bg-hover transition-all duration-200"
+              onClick={() => setShowAutoPanel(!showAutoPanel)}
+            >
+              <Brain className="w-4 h-4" />
+            </Button>
+            <Button variant="ghost" size="sm" className="w-8 h-8 p-0 hover:bg-hover transition-all duration-200">
+              <RotateCcw className="w-4 h-4" />
+            </Button>
+            <Button variant="ghost" size="sm" className="w-8 h-8 p-0 hover:bg-hover transition-all duration-200">
+              <Settings className="w-4 h-4" />
+            </Button>
+            <Button variant="ghost" size="sm" className="w-8 h-8 p-0 hover:bg-hover transition-all duration-200">
+              <MoreVertical className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Enhanced Quick Actions */}
+        <div className="flex flex-wrap gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs h-7 px-3 bg-gradient-accent border-border/50 hover:bg-gradient-primary hover:text-white hover:border-primary transition-all duration-300"
+          >
+            <Zap className="w-3 h-3 mr-1" />
+            快速生成
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs h-7 px-3 bg-gradient-accent border-border/50 hover:bg-gradient-primary hover:text-white hover:border-primary transition-all duration-300"
+          >
+            <FileText className="w-3 h-3 mr-1" />
+            优化内容
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs h-7 px-3 bg-gradient-accent border-border/50 hover:bg-gradient-primary hover:text-white hover:border-primary transition-all duration-300"
+          >
+            <Lightbulb className="w-3 h-3 mr-1" />
+            创意建议
+          </Button>
+          <Button
+            variant={isAutoMode ? "default" : "outline"}
+            size="sm"
+            className={`text-xs h-7 px-3 ${isAutoMode 
+              ? "bg-gradient-primary text-white shadow-glow" 
+              : "bg-gradient-accent border-border/50 hover:bg-gradient-primary hover:text-white hover:border-primary"
+            } transition-all duration-300`}
+            onClick={() => setIsAutoMode(!isAutoMode)}
+          >
+            <Brain className="w-3 h-3 mr-1" />
+            Auto模式
+          </Button>
+        </div>
+      </div>
+
+      {/* Auto Mode Panel */}
+      {showAutoPanel && (
+        <div className="h-80 border-b border-border/50 p-4">
+          <AutoModePanel />
+        </div>
+      )}
+
+      {/* Enhanced Messages Area */}
+      <ScrollArea className="flex-1 p-4">
+        <div className="space-y-6">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`max-w-[85%] rounded-2xl shadow-soft transition-all duration-300 hover:shadow-elevated ${
+                  message.role === 'user'
+                    ? 'bg-gradient-primary text-white'
+                    : 'bg-gradient-glass backdrop-blur-sm border border-border/50'
+                }`}
+              >
+                <div className="p-5">
+                  <div className="flex items-start space-x-3">
+                    {message.role === 'assistant' && (
+                      <div className="w-7 h-7 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0 shadow-glow">
+                        <Bot className="w-4 h-4 text-white" />
+                      </div>
+                    )}
+                    {message.role === 'user' && (
+                      <div className="w-7 h-7 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                        <User className="w-4 h-4 text-white" />
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center space-x-2 mb-2">
+                        {message.type && getMessageTypeIcon(message.type)}
+                        {message.metadata?.model && (
+                          <Badge variant="secondary" className="text-xs">
+                            {message.metadata.model}
+                          </Badge>
+                        )}
+                        {message.metadata?.confidence && (
+                          <Badge variant="outline" className="text-xs">
+                            准确度: {(message.metadata.confidence * 100).toFixed(0)}%
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap">
+                        {message.content}
+                      </div>
+                      {message.metadata?.suggestions && (
+                        <div className="mt-3 space-y-2">
+                          <p className="text-xs font-medium opacity-80">💡 建议:</p>
+                          {message.metadata.suggestions.map((suggestion, index) => (
+                            <Button
+                              key={index}
+                              variant="outline"
+                              size="sm"
+                              className="text-xs h-6 px-2 mr-2 mb-1 bg-white/10 border-white/20 hover:bg-white/20"
+                            >
+                              {suggestion}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="px-5 pb-4 flex items-center justify-between">
+                  <div className="text-xs opacity-60 flex items-center space-x-2">
+                    <span>{message.timestamp.toLocaleTimeString()}</span>
+                    {message.metadata?.tokens && (
+                      <span>• {message.metadata.tokens} tokens</span>
+                    )}
+                  </div>
+                  {message.role === 'assistant' && (
+                    <div className="flex items-center space-x-1">
+                      <Button variant="ghost" size="sm" className="w-6 h-6 p-0 opacity-60 hover:opacity-100 transition-opacity">
+                        <Copy className="w-3 h-3" />
+                      </Button>
+                      <Button variant="ghost" size="sm" className="w-6 h-6 p-0 opacity-60 hover:opacity-100 transition-opacity">
+                        <ThumbsUp className="w-3 h-3" />
+                      </Button>
+                      <Button variant="ghost" size="sm" className="w-6 h-6 p-0 opacity-60 hover:opacity-100 transition-opacity">
+                        <ThumbsDown className="w-3 h-3" />
+                      </Button>
+                      <Button variant="ghost" size="sm" className="w-6 h-6 p-0 opacity-60 hover:opacity-100 transition-opacity">
+                        <RefreshCw className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ScrollArea>
+
+      {/* Enhanced Input Area */}
+      <div className="p-4 border-t border-border/50 bg-gradient-secondary">
+        <div className="space-y-3">
+          {/* Model Selection */}
+          <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center space-x-2">
+              <Layers className="w-3 h-3 text-muted-foreground" />
+              <span className="text-muted-foreground">模型:</span>
+              <select 
+                value={selectedModel}
+                onChange={(e) => setSelectedModel(e.target.value)}
+                className="bg-transparent border-none text-xs focus:outline-none"
+              >
+                <option value="claude-4-opus">Claude-4 Opus</option>
+                <option value="claude-4-sonnet">Claude-4 Sonnet</option>
+                <option value="gpt-4-turbo">GPT-4 Turbo</option>
+              </select>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Badge variant="secondary" className="text-xs bg-gradient-primary text-white">
+                剩余: 8,500 tokens
+              </Badge>
+            </div>
+          </div>
+
+          {/* Input Row */}
+          <div className="flex space-x-2">
+            <div className="flex-1 relative">
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="详细描述您的标书需求，AI将为您生成专业内容..."
+                className="bg-gradient-accent border-border/50 focus:border-primary text-sm pr-20 rounded-xl transition-all duration-300"
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
+                <Button variant="ghost" size="sm" className="w-6 h-6 p-0 hover:bg-hover transition-all duration-200">
+                  <Mic className="w-3 h-3" />
+                </Button>
+                <Button variant="ghost" size="sm" className="w-6 h-6 p-0 hover:bg-hover transition-all duration-200">
+                  <Paperclip className="w-3 h-3" />
+                </Button>
+              </div>
+            </div>
+            <Button
+              onClick={handleSendMessage}
+              size="sm"
+              className="px-5 bg-gradient-primary hover:opacity-90 text-white shadow-glow rounded-xl transition-all duration-300"
+              disabled={!inputValue.trim()}
+            >
+              <Send className="w-4 h-4" />
+            </Button>
+          </div>
+          
+          {/* Status and Tips */}
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Enter 发送 • Shift+Enter 换行 • /help 查看命令</span>
+            <div className="flex items-center space-x-2">
+              {isAutoMode && (
+                <Badge variant="secondary" className="text-xs bg-gradient-primary text-white animate-pulse">
+                  Auto模式已启用
+                </Badge>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="h-full flex flex-col bg-sidebar">
